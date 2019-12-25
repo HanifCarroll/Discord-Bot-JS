@@ -6,7 +6,7 @@ const services = ['youtube', 'soundcloud', 'spotify'];
 function collectMediaData(message) {
   const embed = message.embeds[0];
 
-  if (!embed || !services.includes(embed.provider.name.toLowerCase())) {
+  if (!embed || !embed.provider || !services.includes(embed.provider.name.toLowerCase())) {
     return;
   }
 
