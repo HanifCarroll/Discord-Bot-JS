@@ -1,5 +1,4 @@
 const axios = require('axios');
-const qs = require('querystring');
 const backendUrl = require('./config').BACKEND_URL;
 
 const services = ['youtube', 'soundcloud', 'spotify'];
