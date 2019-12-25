@@ -7,6 +7,7 @@ The first version was in Python, and I originally chose Python because I wanted 
 Also, the docs for the Node package are much better.
 
 The bot does a few things:
+
 It responds to certain phrases.
 
 It can look-up words when asked: 'define programming'.
