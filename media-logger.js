@@ -6,7 +6,10 @@ const services = ['youtube', 'soundcloud', 'spotify'];
 function collectMediaData(message) {
   const embed = message.embeds[0];
 
-  if (!embed || !embed.provider || !services.includes(embed.provider.name.toLowerCase())) {
+  if (!embed
+    || !embed.provider
+    || !services.includes(embed.provider.name.toLowerCase())
+    ) {
     return;
   }
 
@@ -17,7 +20,7 @@ function collectMediaData(message) {
     description: embed.description,
     url: embed.url,
     thumbnailUrl: embed.thumbnail.url,
-    timePosted: message.createdTimestamp,
+    timePosted: message.createdAt,
     postedBy: message.author.id,
     service: embed.provider.name,
   };

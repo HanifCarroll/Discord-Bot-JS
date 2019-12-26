@@ -20,7 +20,7 @@ client.on('message', async message => {
   responses.sendHeheTymen(message, content);
   responses.sendLinuxRant(message, content);
   await dictionary.sendDefinition(message, content);
-  // await mediaLogger.sendMediaData(message);
+  await mediaLogger.sendMediaData(message);
 });
 
 client.on('messageUpdate', async (oldMessage, newMessage) => {
