@@ -21,6 +21,7 @@ client.on('message', async message => {
   responses.sendLinuxRant(message, content);
   await dictionary.sendDefinition(message, content);
   await mediaLogger.sendMediaData(message);
+  await mediaLogger.sendYoutubeLength(message);
 });
 
 client.on('messageUpdate', async (oldMessage, newMessage) => {

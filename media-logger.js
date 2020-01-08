@@ -1,9 +1,13 @@
 const axios = require('axios');
-const backendUrl = require('./config').BACKEND_URL;
+const config = require('./config');
+const backendUrl = config.BACKEND_URL;
+const youtubeAPI = config.YOUTUBE_API;
+const moment = require('moment');
+const momentDuration = require('moment-duration-format');
 
 const services = ['youtube', 'soundcloud', 'spotify'];
 
-function collectMediaData(message) {
+async function collectMediaData(message) {
   const embed = message.embeds[0];
 
   if (!embed
@@ -40,4 +44,27 @@ async function sendMediaData(message) {
       .catch(err => console.log('err', err));
 }
 
+async function sendYoutubeLength(message) {
+  const embed = message.embeds[0];
+
+  if (!embed || !embed.provider.name.toLowerCase() === 'youtube') {
+    return;
+  }
+
+  const url = embed.url;
+  const [_, videoKey] = embed.url.split('=');
+  axios.get(youtubeAPI + videoKey)
+    .then(async data => {
+      const duration = data.data.items[0].contentDetails.duration;
+      const formattedDuration = moment
+        .duration(duration)
+        .format('h:mm:ss')
+        .padStart(4, '0:0');
+
+      await message.channel.send(`Video Duration - ${formattedDuration}`)
+    })
+    .catch(err => console.error(err));
+}
+
 module.exports.sendMediaData = sendMediaData;
+module.exports.sendYoutubeLength = sendYoutubeLength;
