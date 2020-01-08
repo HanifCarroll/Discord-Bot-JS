@@ -3,7 +3,7 @@ const config = require('./config');
 const backendUrl = config.BACKEND_URL;
 const youtubeAPI = config.YOUTUBE_API;
 const moment = require('moment');
-const momentDuration = require('moment-duration-format');
+require('moment-duration-format');
 
 const services = ['youtube', 'soundcloud', 'spotify'];
 
@@ -41,7 +41,7 @@ async function sendMediaData(message) {
 
   axios.post(backendUrl, mediaObject)
       .then(res => console.log('res', res.data))
-      .catch(err => console.log('err', err));
+      .catch(err => console.log('err', err.message));
 }
 
 async function sendYoutubeLength(message) {
@@ -51,8 +51,7 @@ async function sendYoutubeLength(message) {
     return;
   }
 
-  const url = embed.url;
-  const [_, videoKey] = embed.url.split('=');
+  const videoKey = getYoutubeId(embed.url);
   axios.get(youtubeAPI + videoKey)
     .then(async data => {
       const duration = data.data.items[0].contentDetails.duration;
@@ -61,9 +60,16 @@ async function sendYoutubeLength(message) {
         .format('h:mm:ss')
         .padStart(4, '0:0');
 
-      await message.channel.send(`Video Duration - ${formattedDuration}`)
+      await message.channel.send(`Duration - ${formattedDuration}`)
     })
     .catch(err => console.error(err));
+}
+
+// From StackOverflow.  Don't ask.
+function getYoutubeId(url){
+  url = url.split(/(vi\/|v%3D|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+
+  return undefined !== url[2]?url[2].split(/[^0-9a-z_\-]/i)[0]:url[0];
 }
 
 module.exports.sendMediaData = sendMediaData;

@@ -26,6 +26,7 @@ client.on('message', async message => {
 
 client.on('messageUpdate', async (oldMessage, newMessage) => {
   await mediaLogger.sendMediaData(newMessage);
+  await mediaLogger.sendYoutubeLength(newMessage);
 });
 
 client.login(DISCORD_TOKEN);
