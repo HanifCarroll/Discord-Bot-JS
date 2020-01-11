@@ -47,7 +47,7 @@ async function sendMediaData(message) {
 async function sendYoutubeLength(message) {
   const embed = message.embeds[0];
 
-  if (!embed || !embed.provider.name.toLowerCase() === 'youtube') {
+  if (!embed || !embed.provider || !embed.provider.name.toLowerCase() === 'youtube') {
     return;
   }
 

@@ -23,7 +23,7 @@ client.on('message', async message => {
   await dictionary.sendDefinition(message, content);
   await mediaLogger.sendMediaData(message);
   await mediaLogger.sendYoutubeLength(message);
-  await misc.searchDuckDuckGo(message, content);
+  await misc.searchGoogle(message, content);
 });
 
 client.on('messageUpdate', async (oldMessage, newMessage) => {

@@ -1,6 +1,7 @@
 const axios = require('axios');
+const { GOOGLE_API_KEY } = require('./config');
 
-async function searchDuckDuckGo(message, content) {
+async function searchGoogle(message, content) {
   const split = content.split(' ');
 
   if (split[0] !== 'search') {
@@ -8,30 +9,23 @@ async function searchDuckDuckGo(message, content) {
   }
 
   const searchValue = split.slice(1).join('+');
-  const url = `https://api.duckduckgo.com/?q=${searchValue}&format=json&t=mydiscordbot`;
+  const url = `https://kgsearch.googleapis.com/v1/entities:search?query=${searchValue}&key=${GOOGLE_API_KEY}&limit=1&indent=True`;
 
   try {
     const { data } = await axios.get(url)
-    const type = data.Type.toLowerCase();
-    let results = '';
+    const result = data.itemListElement[0] && data.itemListElement[0].result;
 
-    if (type === '') {
+    if (!result) {
       return await message.channel.send('No results found.');
     }
 
-    if (type === 'd') {
-      results += `${data.Heading} - Disambiguation\n`;
-    }
-     
-    if (type === 'a') {
-      results += `${data.Heading}\n`;
-      results += `${data.AbstractText}\n`
-    }
+    let results = '';
+    results += `${result.name}\n`;
+    results += `${result.description}\n`;
+    results += `${result.detailedDescription.articleBody}\n`;
+    results += `${result.detailedDescription.url}`;
 
-    results += data.AbstractURL;
-  
     await message.channel.send(results);
-
   } catch (err) {
     console.warn(err.message);
   }
@@ -39,4 +33,4 @@ async function searchDuckDuckGo(message, content) {
 
 }
 
-module.exports.searchDuckDuckGo = searchDuckDuckGo;
+module.exports.searchGoogle = searchGoogle;
