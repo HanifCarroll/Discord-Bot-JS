@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
-const DISCORD_TOKEN = require('./config').DISCORD_TOKEN;
+const { DISCORD_TOKEN } = require('./config');
 const responses = require('./responses');
 const dictionary = require('./dictionary');
 const mediaLogger = require ('./media-logger');
+const misc = require('./misc');
 
 const client = new Discord.Client();
 
@@ -22,6 +23,7 @@ client.on('message', async message => {
   await dictionary.sendDefinition(message, content);
   await mediaLogger.sendMediaData(message);
   await mediaLogger.sendYoutubeLength(message);
+  await misc.searchDuckDuckGo(message, content);
 });
 
 client.on('messageUpdate', async (oldMessage, newMessage) => {
