@@ -21,7 +21,7 @@ async function searchGoogle(message, content) {
 
     let results = '';
     results += `${result.name}\n`;
-    results += `${result.description}\n`;
+    if (results.description) results += `${result.description}\n`;
     results += `${result.detailedDescription.articleBody}\n`;
     results += `${result.detailedDescription.url}`;
 
