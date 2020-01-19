@@ -54,6 +54,8 @@ async function sendYoutubeLength(message) {
   const videoKey = getYoutubeId(embed.url);
   axios.get(youtubeAPI + videoKey)
     .then(async data => {
+      if (!data.data.items[0]) { return; }
+
       const duration = data.data.items[0].contentDetails.duration;
       const formattedDuration = moment
         .duration(duration)
