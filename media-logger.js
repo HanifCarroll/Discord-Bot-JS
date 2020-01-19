@@ -7,7 +7,7 @@ require('moment-duration-format');
 
 const services = ['youtube', 'soundcloud', 'spotify'];
 
-async function collectMediaData(message) {
+function collectMediaData(message) {
   const embed = message.embeds[0];
 
   if (!embed
